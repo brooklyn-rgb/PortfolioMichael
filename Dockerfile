@@ -1,21 +1,17 @@
-# Stage 1: Build the application
+# 1. Build Stage
 FROM ://mcr.microsoft.com AS build
 WORKDIR /src
-
-# Copy csproj and restore as distinct layers
 COPY ["PortfolioMichael.csproj", "."]
 RUN dotnet restore "./PortfolioMichael.csproj"
-
-# Copy everything else and build
 COPY . .
-RUN dotnet publish "PortfolioMichael.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "PortfolioMichael.csproj" -c Release -o /app/publish
 
-# Stage 2: Run the application
+# 2. Runtime Stage
 FROM ://mcr.microsoft.com AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 
-# Set the port Render expects (default is 10000)
+# Set the port Render expects for 2026 web services
 ENV ASPNETCORE_URLS=http://+:10000
 EXPOSE 10000
 

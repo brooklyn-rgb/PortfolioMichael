@@ -1,11 +1,11 @@
 services:
   - type: web
     name: portfolio-michael
-    runtime: docker
+    runtime: docker      # Specifies the container environment
     dockerfilePath: ./Dockerfile
-    plan: free
+    plan: free           # Use 'free' or 'standard'
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: GMAIL_APP_PASSWORD
-        sync: false
+        sync: false      # Secure: Prompts for value in Dashboard; stays out of Git
