@@ -1,0 +1,64 @@
+﻿@page
+@model PortfolioMichael.Pages.ContactModel
+@{
+    ViewData["Title"] = "Contact Michael";
+}
+
+<section class="section container mt-5">
+    <!-- Status Alerts -->
+    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+    {
+        <div class="alert alert-success">@Model.SuccessMessage</div>
+    }
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <div class="row g-5">
+        <!-- Sidebar Info -->
+        <div class="col-md-4">
+            <h3>Contact Info</h3>
+            <ul class="list-unstyled">
+                <li><strong>Phone:</strong> <a href="tel:@Model.Phone">@Model.Phone</a></li>
+                <li><strong>Email:</strong> <a href="mailto:@Model.Email">@Model.Email</a></li>
+                <li><strong>LinkedIn:</strong> <a href="@Model.LinkedIn" target="_blank">Michael Mujabi</a></li>
+            </ul>
+        </div>
+
+        <!-- The Form -->
+        <div class="col-md-8">
+            <form method="post">
+                <div class="mb-3">
+                    <label asp-for="ContactForm.Name" class="form-label">Name</label>
+                    <input asp-for="ContactForm.Name" class="form-control" />
+                    <span asp-validation-for="ContactForm.Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactForm.Email" class="form-label">Email</label>
+                    <input asp-for="ContactForm.Email" class="form-control" />
+                    <span asp-validation-for="ContactForm.Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactForm.Subject" class="form-label">Subject</label>
+                    <input asp-for="ContactForm.Subject" class="form-control" />
+                    <span asp-validation-for="ContactForm.Subject" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactForm.Message" class="form-label">Message</label>
+                    <textarea asp-for="ContactForm.Message" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="ContactForm.Message" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

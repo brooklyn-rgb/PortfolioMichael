@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: portfolio-michael
+    runtime: docker # Standard for .NET on Render in 2026
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: GMAIL_APP_PASSWORD
+        sync: false # Tells Render: "Keep the value I manually typed in the Dashboard"
+      - key: EmailSettings__SenderPassword
+       
