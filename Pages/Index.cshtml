@@ -5,28 +5,39 @@
 }
 
 <!-- Hero Section -->
-<section class="hero">
-    <div class="container">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                ASP.NET Developer <span class="highlight">Building</span> Enterprise Solutions
-            </h1>
-            <p class="hero-subtitle">
-                I specialize in creating secure, scalable, and high-performance web applications using .NET 8 and modern cloud architecture. With over 8+ years of experience, I transform complex business requirements into reliable technical solutions.
-            </p>
-            <div class="hero-actions">
-                <a href="#projects" class="btn btn-primary">
-                    <i class="bi bi-code-slash"></i>
-                    View Projects
-                </a>
-                <a href="#contact" class="btn btn-secondary">
-                    <i class="bi bi-chat"></i>
-                    Get In Touch
-                </a>
+<section class="hero-3d">
+    <!-- Video Background -->
+    <div class="video-container">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="~/videos/bk.mp4" type="video/mp4">
+            <!-- Fallback image if video fails -->
+            <img src="~/images/hero-fallback.jpg" alt="Hero Fallback">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <div class="container hero-container">
+        <div class="hero-content-3d" id="tiltCard">
+            <div class="hero-inner-content">
+                <h1 class="hero-title">
+                    ASP.NET Developer <span class="highlight">Building</span> Enterprise Solutions
+                </h1>
+                <p class="hero-subtitle">
+                    I specialize in creating secure, scalable, and high-performance web applications using .NET 8/10 and modern cloud architecture.
+                </p>
+                <div class="hero-actions">
+                    <a href="#projects" class="btn btn-primary">
+                        <i class="bi bi-code-slash"></i> View Projects
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="bi bi-chat"></i> Get In Touch
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
 
 <!-- Projects Section -->
 <section class="section" id="projects">
@@ -415,6 +426,82 @@
     </div>
 </section>
 
+<style>
+    .hero-3d {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        perspective: 1000px; /* Essential for 3D effect */
+    }
+
+    /* Video Background Styling */
+    .video-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+    .hero-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Darken video for text readability */
+        background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
+    }
+
+    /* 3D Glass Card */
+    .hero-content-3d {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px); /* Glassmorphism */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 3rem;
+        max-width: 800px;
+        transform-style: preserve-3d;
+        transition: transform 0.1s ease-out;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-inner-content {
+        transform: translateZ(50px); /* Pushes text "out" toward the user */
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .hero-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    .hero-actions {
+        transform: translateZ(30px); /* Subtle depth for buttons */
+        display: flex;
+        gap: 1rem;
+    }
+
+</style>
+
 <script>
     // Contact form submission
     document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -435,4 +522,23 @@
             submitBtn.disabled = false;
         }, 1500);
     });
+
+
+        document.addEventListener('mousemove', (e) => {
+        const card = document.getElementById('tiltCard');
+        if (!card) return;
+
+        const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+        const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+
+        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    });
+
+    // Reset tilt when mouse leaves
+    document.addEventListener('mouseleave', () => {
+        const card = document.getElementById('tiltCard');
+        if (card) card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+    });
+
 </script>
+
