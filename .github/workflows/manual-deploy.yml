@@ -1,0 +1,48 @@
+name: Manual Deploy to Render
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+      version:
+        description: 'Version tag'
+        required: false
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Deploy to ${{ github.event.inputs.environment }}
+      env:
+        RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      run: |
+        if [ "${{ github.event.inputs.environment }}" == "staging" ]; then
+          SERVICE_ID=${{ secrets.RENDER_STAGING_SERVICE_ID }}
+        else
+          SERVICE_ID=${{ secrets.RENDER_SERVICE_ID }}
+        fi
+        
+        curl -X POST "https://api.render.com/v1/services/$SERVICE_ID/deploys" \
+          -H "Authorization: Bearer $RENDER_API_KEY" \
+          -H "Accept: application/json"
+          
+    - name: Notify deployment
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_TITLE: "Deployment to ${{ github.event.inputs.environment }}"
+        SLACK_MESSAGE: "Portfolio deployed successfully"
